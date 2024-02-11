@@ -35,9 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      // Add your registration/authentication logic here
 
-      // For now, print the values to the console
       print('Name: $name');
       print('Email: $email');
       print('Password: $password');
