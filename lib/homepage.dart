@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 void main() {
   runApp(Homepage());
 }
@@ -64,85 +66,69 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              padding: EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
+            Text(
+              'Post an Event',
+              style: TextStyle(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
               ),
-              child: TextField(
-                controller: eventNameController,
-                decoration: InputDecoration(
-                  hintText: 'Event Name',
-                  border: InputBorder.none,
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: eventNameController,
+              decoration: InputDecoration(
+                labelText: 'Event Name',
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
             SizedBox(height: 16.0),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              padding: EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: TextField(
-                controller: eventDescriptionController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: 'Event Description',
-                  border: InputBorder.none,
+            TextField(
+              controller: eventDescriptionController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Event Description',
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: postEvent,
+              child: Text('Post Event'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                primary: Colors.blue,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              ),
-              child: Text(
-                'Post Event',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(172, 137, 124, 1.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 24.0),
-            Text(
-              'Posted Events',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
               ),
             ),
             SizedBox(height: 16.0),
+            Text(
+              'Upcoming Events',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: events.length,
                 itemBuilder: (context, index) {
-                  final event = events[index];
                   return Card(
-                    elevation: 4.0,
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
                     color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
-                      title: Text(
-                        event.eventName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(event.eventDescription),
+                      title: Text(events[index].eventName),
+                      subtitle: Text(events[index].eventDescription),
                     ),
                   );
                 },
