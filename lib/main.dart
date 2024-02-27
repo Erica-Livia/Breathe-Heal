@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'homepage.dart';
 import 'login.dart';
 import 'signup.dart';
@@ -8,22 +9,11 @@ import 'profile.dart';
 import 'update.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: 'your_api_key',
-      authDomain: 'your_auth_domain',
-      databaseURL: 'your_database_url',
-      projectId: 'your_project_id',
-      storageBucket: 'your_storage_bucket',
-      messagingSenderId: 'your_messaging_sender_id',
-      appId: 'your_app_id',
-      measurementId: 'your_measurement_id',
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(MyApp());
+  runApp(Homepage());
 }
 
 class MyApp extends StatelessWidget {
@@ -31,8 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Breathe and Heal',
-      initialRoute: '/Update'
-          '',
+      initialRoute: '/Homepage',
       routes: {
         '/': (context) => Welcome(),
         '/Signup': (context) => Signup(),

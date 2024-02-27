@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(Homepage());
 }
 
@@ -18,13 +22,22 @@ class Homepage extends StatelessWidget {
 }
 
 class Event {
+  final String id;
   final String eventName;
   final String eventDescription;
 
   Event({
+    required this.id,
     required this.eventName,
     required this.eventDescription,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'eventName': eventName,
+      'eventDescription': eventDescription,
+    };
+  }
 }
 
 class HomePage extends StatefulWidget {
@@ -33,24 +46,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Event> events = [];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController eventNameController = TextEditingController();
-  final TextEditingController eventDescriptionController = TextEditingController();
-
-  void postEvent() {
-    if (eventNameController.text.isNotEmpty && eventDescriptionController.text.isNotEmpty) {
-      final newEvent = Event(
-        eventName: eventNameController.text,
-        eventDescription: eventDescriptionController.text,
-      );
-
-      setState(() {
-        events.add(newEvent);
-        eventNameController.clear();
-        eventDescriptionController.clear();
-      });
-    }
-  }
+  final TextEditingController eventDescriptionController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,83 +59,127 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color.fromRGBO(172, 137, 124, 1.0),
         elevation: 0,
       ),
-      body: Container(
-        color: Color.fromRGBO(172, 137, 124, 1.0),
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Post an Event',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: eventNameController,
-              decoration: InputDecoration(
-                labelText: 'Event Name',
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: eventDescriptionController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: 'Event Description',
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: postEvent,
-              child: Text('Post Event'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              'Upcoming Events',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: events.length,
-                itemBuilder: (context, index) {
-                  return Card(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Post an Event',
+                  style: TextStyle(
                     color: Colors.white,
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListTile(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: eventNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Event Name',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: eventDescriptionController,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    labelText: 'Event Description',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () => _postEvent(),
+                  child: Text('Post Event'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+              ],
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('events').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                final events = snapshot.data!.docs.map((doc) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  return Event(
+                    id: doc.id,
+                    eventName: data['eventName'],
+                    eventDescription: data['eventDescription'],
+                  );
+                }).toList();
+                return ListView.builder(
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
                       title: Text(events[index].eventName),
                       subtitle: Text(events[index].eventDescription),
-                    ),
-                  );
-                },
-              ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () => _updateEvent(events[index]),
+                            icon: Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () => _deleteEvent(events[index]),
+                            icon: Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _postEvent() {
+    final eventName = eventNameController.text.trim();
+    final eventDescription = eventDescriptionController.text.trim();
+    if (eventName.isNotEmpty && eventDescription.isNotEmpty) {
+      _firestore.collection('events').add({
+        'eventName': eventName,
+        'eventDescription': eventDescription,
+      });
+      eventNameController.clear();
+      eventDescriptionController.clear();
+    }
+  }
+
+  void _updateEvent(Event event) {
+    // Implement update functionality
+  }
+
+  void _deleteEvent(Event event) {
+    _firestore.collection('events').doc(event.id).delete();
   }
 }

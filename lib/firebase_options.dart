@@ -51,15 +51,16 @@ class DefaultFirebaseOptions {
     authDomain: 'breathe-and-heal-c42c6.firebaseapp.com',
     storageBucket: 'breathe-and-heal-c42c6.appspot.com',
     measurementId: 'G-D7NSKYSBZS',
+    databaseURL: 'https://Breathe_and_heal.firebaseio.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC_28lLWnP0rDU4QnsF6YOxqtSnQSh3pKg',
-    appId: '1:97481477443:android:0f3ffa6dfa24dcde8933f6',
-    messagingSenderId: '97481477443',
-    projectId: 'breathe-and-heal-c42c6',
-    storageBucket: 'breathe-and-heal-c42c6.appspot.com',
-  );
+      apiKey: 'AIzaSyC_28lLWnP0rDU4QnsF6YOxqtSnQSh3pKg',
+      appId: '1:97481477443:android:0f3ffa6dfa24dcde8933f6',
+      messagingSenderId: '97481477443',
+      projectId: 'breathe-and-heal-c42c6',
+      storageBucket: 'breathe-and-heal-c42c6.appspot.com',
+      databaseURL: 'https://Breathe_and_heal.firebaseio.com');
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAQ5sVNJKK2GOKclZTcbf3rfO-6DAtEsow',
