@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "97481477443",
+    "project_id": "breathe-and-heal-c42c6",
+    "storage_bucket": "breathe-and-heal-c42c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97481477443:android:0f3ffa6dfa24dcde8933f6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_28lLWnP0rDU4QnsF6YOxqtSnQSh3pKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

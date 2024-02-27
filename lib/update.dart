@@ -2,26 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(ProfileApp());
+  runApp(Update());
 }
 
-class ProfileApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile',
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(172, 137, 124, 1), 
-        appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.light, 
-        ),
-      ),
-      home: UpdateProfilePage(),
-    );
-  }
-}
 
-class UpdateProfilePage extends StatelessWidget {
+class Update extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
