@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Column(
+        child: 2(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircleAvatar(
