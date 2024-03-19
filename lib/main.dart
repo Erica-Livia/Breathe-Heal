@@ -9,6 +9,7 @@ import 'test1.dart';
 import 'welcome.dart';
 import 'profile.dart';
 import 'update.dart';
+
 import 'authentication_screen.dart';
 
 void main() async {
@@ -16,7 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp()); // Use MyApp as the root widget of your app
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,14 +25,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Breathe and Heal',
-      initialRoute: '/test',
+      initialRoute: '/Profile',
       routes: {
         '/': (context) => Welcome(),
         '/Signup': (context) => Signup(),
         '/Login': (context) => Login(),
         '/Homepage': (context) => Homepage(),
         '/Profile': (context) => ProfileApp(),
-        '/Update': (context) => Update(),
+        '/Update': (context) => Update(onUpdateProfile: () {}),
         '/test': (context) => test(),
         '/test1': (context) => Test(),
         '/AuthenticationScreen': (context) => AuthenticationScreen(),

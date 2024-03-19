@@ -35,7 +35,6 @@ class _SignUpPageState extends State<SignUpPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-
       print('Name: $name');
       print('Email: $email');
       print('Password: $password');
@@ -104,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
               width: 400,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0), // Adjusted for rounded corners
+                borderRadius: BorderRadius.circular(15.0),
               ),
               padding: EdgeInsets.all(16.0),
               child: Column(
@@ -115,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black, // Changed text color
                     ),
                   ),
                   SizedBox(height: 24),
@@ -147,7 +146,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
-                            } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                            } else if (!RegExp(
+                                    r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
                                 .hasMatch(value)) {
                               return 'Please enter a valid email address';
                             }
@@ -174,8 +174,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: _submitForm,
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(172, 137, 124, 1.0),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromRGBO(172, 137, 124, 1.0)),
                           ),
                           child: Text('Sign Up'),
                         ),

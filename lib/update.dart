@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
-  runApp(Update());
+  var yourUpdateProfileFunction;
+  runApp(MaterialApp(home: Update(onUpdateProfile: yourUpdateProfileFunction)));
 }
 
-
 class Update extends StatelessWidget {
+  final Function onUpdateProfile;
+
+  Update({required this.onUpdateProfile});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,12 +17,12 @@ class Update extends StatelessWidget {
         title: Center(
           child: Text(
             'Update Profile',
-            style: TextStyle(color: Colors.white), 
+            style: TextStyle(color: Colors.white),
           ),
         ),
-        backgroundColor: Color.fromRGBO(172, 137, 124, 1), 
+        backgroundColor: Color.fromRGBO(172, 137, 124, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), 
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -31,118 +34,16 @@ class Update extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text(
-                'Full Name',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Email',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Password',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  obscureText: true,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Profile Photo',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 5),
-              Center(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey[300],
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.person, size: 40, color: Colors.grey[600]),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black, 
-                      ),
-                      child: Text('Change Photo'),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
+              // Other form fields
               ElevatedButton(
                 onPressed: () {
-                  
+                  // Invoke the onUpdateProfile function when the button is pressed
+                  onUpdateProfile();
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(172, 137, 124, 1), 
-                  onPrimary: Colors.white, 
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Color.fromRGBO(172, 137, 124, 1)),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
                 ),
                 child: Text('Update Profile'),
               ),

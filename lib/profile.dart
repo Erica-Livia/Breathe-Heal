@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 void main() {
   runApp(ProfileApp());
 }
@@ -12,17 +11,26 @@ class ProfileApp extends StatelessWidget {
     return MaterialApp(
       title: 'Profile',
       theme: ThemeData(
-        primaryColor: Color.fromRGBO(172, 137, 124, 1), 
+        primaryColor: Color.fromRGBO(172, 137, 124, 1),
         appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.light, 
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
       ),
-      home: ProfilePage(),
+      home: ProfilePage(
+        onEditProfile: () {
+          // Implement the action for editing profile here
+          print('Edit Profile button pressed');
+        },
+      ),
     );
   }
 }
 
 class ProfilePage extends StatelessWidget {
+  final VoidCallback? onEditProfile;
+
+  const ProfilePage({Key? key, this.onEditProfile}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +38,12 @@ class ProfilePage extends StatelessWidget {
         title: Center(
           child: Text(
             'Account',
-            style: TextStyle(color: Colors.white), 
+            style: TextStyle(color: Colors.white),
           ),
         ),
-        backgroundColor: Color.fromRGBO(172, 137, 124, 1), 
+        backgroundColor: Color.fromRGBO(172, 137, 124, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), 
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -47,7 +55,7 @@ class ProfilePage extends StatelessWidget {
           children: <Widget>[
             CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/profile_pic.jpg'),
+              backgroundImage: AssetImage('assets/logo.png'),
             ),
             SizedBox(height: 20),
             Text(
@@ -55,7 +63,7 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black, 
+                color: Colors.black,
               ),
             ),
             SizedBox(height: 10),
@@ -63,17 +71,15 @@ class ProfilePage extends StatelessWidget {
               'john.doe@example.com',
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.black, 
+                color: Colors.black,
               ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black, 
+              onPressed: onEditProfile,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                foregroundColor: MaterialStateProperty.all(Colors.black),
               ),
               child: Text('Edit Profile'),
             ),
@@ -100,7 +106,7 @@ class ProfilePage extends StatelessWidget {
                 Container(
                   width: 200,
                   height: 80,
-                  color: Colors.white, 
+                  color: Colors.white,
                   child: Center(
                     child: Text(
                       'Following\n50',
@@ -116,23 +122,20 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(172, 137, 124, 1),
-                onPrimary: Colors.white,
+              onPressed: () {},
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromRGBO(172, 137, 124, 1)),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
               child: Text('Sign Out'),
             ),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.red, 
+              onPressed: () {},
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                foregroundColor: MaterialStateProperty.all(Colors.red),
               ),
               child: Text('Delete Account'),
             ),
