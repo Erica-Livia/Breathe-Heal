@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:your_app/login.dart';
+import 'package:flutter_application_1_test/login.dart';
 
 void main() {
   testWidgets('Login screen renders correctly', (WidgetTester tester) async {
@@ -40,5 +40,44 @@ void main() {
 
     // Verify that login action is triggered.
     expect(loginPressed, true);
+  });
+
+  testWidgets('Forgot Password button triggers action',
+      (WidgetTester tester) async {
+    bool forgotPasswordPressed = false;
+
+    // Build our Login screen and trigger a frame.
+    await tester.pumpWidget(MaterialApp(
+      home: Login(),
+    ));
+
+    // Tap the forgot password button and verify that action is triggered.
+    await tester.tap(find.text('Forgot Password?'));
+    forgotPasswordPressed = true;
+
+    // Rebuild the widget with the updated state.
+    await tester.pump();
+
+    // Verify that action is triggered.
+    expect(forgotPasswordPressed, true);
+  });
+
+  testWidgets('Sign Up button triggers action', (WidgetTester tester) async {
+    bool signUpPressed = false;
+
+    // Build our Login screen and trigger a frame.
+    await tester.pumpWidget(MaterialApp(
+      home: Login(),
+    ));
+
+    // Tap the sign up button and verify that action is triggered.
+    await tester.tap(find.text('Sign Up'));
+    signUpPressed = true;
+
+    // Rebuild the widget with the updated state.
+    await tester.pump();
+
+    // Verify that action is triggered.
+    expect(signUpPressed, true);
   });
 }

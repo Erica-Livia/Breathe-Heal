@@ -10,16 +10,22 @@ import 'welcome.dart';
 import 'profile.dart';
 import 'update.dart';
 import 'authentication_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp()); // Use MyApp as the root widget of your app
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  runApp(MyApp(firebaseAuth: firebaseAuth));
 }
 
 class MyApp extends StatelessWidget {
+  final FirebaseAuth firebaseAuth;
+
+  MyApp({required this.firebaseAuth});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
