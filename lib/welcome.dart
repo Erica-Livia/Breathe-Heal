@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1_test/login.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -15,7 +16,11 @@ class Welcome extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('logo.png'),
+                Image.asset(
+                  'assets/logo.png',
+                  width: 200.0,
+                  height: 200.0,
+                ),
                 SizedBox(height: 20.0),
                 Container(
                   width: double.infinity,
@@ -27,7 +32,10 @@ class Welcome extends StatelessWidget {
                 SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
-                    // Add your action here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -41,7 +49,7 @@ class Welcome extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Get Started', // Title displayed at the top
+                    'Get Started',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
