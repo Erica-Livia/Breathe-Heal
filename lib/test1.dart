@@ -5,26 +5,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Test extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-      clientId: '97481477443-jur6ilnlhqn48c7gf064jgs553ckegb8.apps.googleusercontent.com',
+    clientId:
+        '97481477443-jur6ilnlhqn48c7gf064jgs553ckegb8.apps.googleusercontent.com',
   );
 
-  Future<User?> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
 
-      final UserCredential authResult = await _auth.signInWithCredential(credential);
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
       final User? user = authResult.user;
 
-      return user;
+      if (user != null) {
+        // Navigate to the HomePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     } catch (e) {
       print('Error signing in with Google: $e');
-      return null;
     }
   }
 
@@ -34,8 +43,7 @@ class Test extends StatelessWidget {
       appBar: AppBar(
         title: Text(''),
       ),
-      backgroundColor: Color.fromRGBO(
-          172, 137, 124, 1.00), // Set screen background color to brown
+      backgroundColor: Color.fromRGBO(172, 137, 124, 1.00),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -47,7 +55,7 @@ class Test extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      'B&H', // Title displayed at the top
+                      'B&H',
                       style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
@@ -108,8 +116,10 @@ class Test extends StatelessWidget {
                               textStyle: MaterialStateProperty.all<TextStyle>(
                                 TextStyle(fontSize: 18.0),
                               ),
-                              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 15.0),
                               ),
                             ),
                             child: Text(
@@ -149,10 +159,7 @@ class Test extends StatelessWidget {
                               SizedBox(height: 12.0),
                               OutlinedButton(
                                 onPressed: () async {
-                                  User? user = await _signInWithGoogle();
-                                  if (user != null) {
-                                    // Navigate to the next screen or perform other actions
-                                  }
+                                  await _signInWithGoogle(context);
                                 },
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.white,
@@ -162,7 +169,8 @@ class Test extends StatelessWidget {
                                   side: BorderSide(color: Colors.black),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 16.0),
                                   child: Text(
                                     'Sign in with Google',
                                     style: TextStyle(
@@ -183,6 +191,20 @@ class Test extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: Center(
+        child: Text('Welcome to the HomePage!'),
       ),
     );
   }

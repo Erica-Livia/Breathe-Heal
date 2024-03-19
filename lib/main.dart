@@ -16,11 +16,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-<<<<<<< HEAD
-  runApp(Welcome());
-=======
   runApp(MyApp()); // Use MyApp as the root widget of your app
->>>>>>> 32ff3252a92a2027d69682c4318f1fe1d277ed05
 }
 
 class MyApp extends StatelessWidget {
@@ -28,11 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Breathe and Heal',
-<<<<<<< HEAD
-      initialRoute: '/',
-=======
       initialRoute: '/test',
->>>>>>> 32ff3252a92a2027d69682c4318f1fe1d277ed05
       routes: {
         '/': (context) => Welcome(),
         '/Signup': (context) => Signup(),
