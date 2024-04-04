@@ -31,7 +31,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Breathe and Heal',
-      initialRoute: '/Profile',
+<<<<<<< Updated upstream
+      initialRoute: '/login',
+=======
+      initialRoute: '/',
+>>>>>>> Stashed changes
       routes: {
         '/': (context) => Welcome(),
         '/Signup': (context) => Signup(),
