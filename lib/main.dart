@@ -9,8 +9,8 @@ import 'test1.dart';
 import 'welcome.dart';
 import 'profile.dart';
 import 'update.dart';
+import 'authentication_screen.dart'; // Make sure to import the authentication_screen.dart
 
-import 'authentication_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
