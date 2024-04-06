@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1_test/homepage.dart';
+import 'package:flutter_application_1_test/login.dart';
 
 void main() {
   runApp(ProfileApp());
@@ -18,10 +20,13 @@ class ProfileApp extends StatelessWidget {
       ),
       home: ProfilePage(
         onEditProfile: () {
-          // Implement the action for editing profile here
-          print('Edit Profile button pressed');
+          Navigator.pushNamed(context, '/Update');
         },
       ),
+      routes: {
+        '/Homepage': (context) => HomePage(),
+        '/Login': (context) => Login(),
+      },
     );
   }
 }
@@ -50,7 +55,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: 2(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircleAvatar(
@@ -122,7 +127,9 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/Login');
+              },
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all(Color.fromRGBO(172, 137, 124, 1)),
@@ -132,7 +139,9 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/Homepage');
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
                 foregroundColor: MaterialStateProperty.all(Colors.red),

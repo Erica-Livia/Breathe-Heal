@@ -9,8 +9,8 @@ import 'test1.dart';
 import 'welcome.dart';
 import 'profile.dart';
 import 'update.dart';
+import 'authentication_screen.dart'; // Make sure to import the authentication_screen.dart
 
-import 'authentication_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
@@ -31,11 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Breathe and Heal',
-<<<<<<< Updated upstream
-      initialRoute: '/login',
-=======
       initialRoute: '/',
->>>>>>> Stashed changes
       routes: {
         '/': (context) => Welcome(),
         '/Signup': (context) => Signup(),
