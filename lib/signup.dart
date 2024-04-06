@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1_test/login.dart';
 
-void main() {
-  runApp(Signup());
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+
+String hashPassword(String password) {
+  var bytes = utf8.encode(password); // Encode the password as UTF-8
+  var digest = sha256.convert(bytes); // Generate the hash
+  return digest.toString(); // Convert the hash to a string and return
 }
 
 class Signup extends StatelessWidget {
@@ -33,11 +40,48 @@ class _SignUpPageState extends State<SignUpPage> {
       // Perform sign-up logic here
       String name = _nameController.text;
       String email = _emailController.text;
-      String password = _passwordController.text;
+      String password =
+          hashPassword(_passwordController.text); // Hash the password
 
-      print('Name: $name');
-      print('Email: $email');
-      print('Password: $password');
+      // Check if a user with the provided email already exists
+      FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          // User with the same email already exists
+          // Display an error message to the user
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('User with this email already exists.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        } else {
+          // No user with the same email exists, proceed with signup
+          // Write the signup data to Firestore
+          FirebaseFirestore.instance.collection('users').add({
+            'name': name,
+            'email': email,
+            'password': password, // Store the hashed password
+          }).then((value) {
+            // Data successfully written to Firestore
+            print('User signed up successfully!');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+            );
+            // You can navigate to another screen or perform any other actions here
+          }).catchError((error) {
+            // Error occurred while writing data to Firestore
+            print('Error signing up: $error');
+          });
+        }
+      }).catchError((error) {
+        // Error occurred while querying Firestore
+        print('Error querying Firestore: $error');
+      });
     }
   }
 
@@ -192,9 +236,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Navigate to the login page
-                                // Replace with your navigation logic
-                                print('Navigate to login page');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Login(), // Navigate to Login screen
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Login',

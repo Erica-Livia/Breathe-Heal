@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'profile.dart'; // Import profile.dart
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,12 +105,10 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                   onPressed: () => _postEvent(),
                   child: Text('Post Event'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
@@ -160,6 +159,31 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.topRight,
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              // Navigate to ProfilePage when the button is pressed
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
+            },
+            icon: Icon(Icons.account_circle), // Profile icon
+            label: Text(''),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromRGBO(137, 136, 136, 1),
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: -2, horizontal: 0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(360),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
